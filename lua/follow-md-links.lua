@@ -117,9 +117,9 @@ function M.follow_link()
 
 	if link_destination then
 		local resolved_link, link_type = resolve_link(link_destination)
-		if link_type == "local" then
-			follow_local_link(resolved_link)
-		elseif link_type == "web" then
+		-- if link_type == "local" then
+		-- 	follow_local_link(resolved_link)
+		if link_type == "web" then
 			if is_linux then
 				vim.fn.system("xdg-open " .. vim.fn.shellescape(resolved_link))
 			elseif is_macos then
