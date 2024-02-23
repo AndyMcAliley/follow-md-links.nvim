@@ -69,15 +69,19 @@ local function get_link_destination()
 		local link_label = vim.split(treesitter.get_node_text(node_at_cursor, 0), "\n")[1]
 		return get_reference_link_destination(link_label)
 	elseif node_at_cursor:type() == "uri_autolink" then
-		local link_label = vim.split(treesitter.get_node_text(node_at_cursor, 0), "\n")[1]
-		return string.gsub(link_label, "[<>]", "")
+		return vim.split(treesitter.get_node_text(node_at_cursor, 0), "\n")[1]
 	else
 		return
 	end
 end
 
-local function resolve_link(link)
+local function resolve_link(link_in)
 	local link_type
+    -- from https://github.com/jghauser/follow-md-links.nvim/issues/20#issuecomment-1873542468
+    local link = link_in:match("^<(.+)>$")
+    if not link then
+        link = link_in
+    end 
 	if link:sub(1, 1) == [[/]] then
 		link_type = "local"
 		return link, link_type
