@@ -141,4 +141,27 @@ function M.follow_link()
     return followed
 end
 
+function M.follow_link_local()
+	local link_destination = get_link_destination()
+    local followed = false
+
+	if link_destination then
+		local resolved_link, link_type = resolve_link(link_destination)
+		-- if link_type == "local" then
+        follow_local_link(resolved_link)
+		-- if link_type == "web" then
+        -- if is_linux then
+        --     vim.fn.system("xdg-open " .. vim.fn.shellescape(resolved_link))
+        -- elseif is_macos then
+        --     vim.fn.system("open " .. vim.fn.shellescape(resolved_link))
+        -- elseif is_windows then
+        --     vim.fn.system('cmd.exe /c start "" ' .. vim.fn.shellescape(resolved_link))
+        -- end
+        followed = true
+		-- end
+	end
+    return followed
+end
+
+
 return M
