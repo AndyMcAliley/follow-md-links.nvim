@@ -119,6 +119,10 @@ local function follow_local_link(link)
 	end
 end
 
+function M.get_link()
+    return get_link_destination()
+end
+
 function M.follow_link()
 	local link_destination = get_link_destination()
     local followed = false
