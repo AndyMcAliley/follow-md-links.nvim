@@ -216,17 +216,21 @@ local M = {}
 
 function M.follow_link()
   local link_destination = get_link_destination()
+  local followed = false
 
   if link_destination then
     local resolved_link, link_type = resolve_link(link_destination)
     if link_type == "local" then
       follow_local_link(resolved_link)
+      followed = true
     elseif link_type == "heading" then
       -- Save link position to jumplist
       cmd("normal! m'")
       follow_heading_link(resolved_link)
+      followed = true
     elseif link_type == "man" then
       vim.cmd.Man(link_destination:gsub("man://", ""))
+      followed = true
     elseif link_type == "web" then
       if is_linux then
         vim.system({ "xdg-open", resolved_link })
@@ -235,8 +239,10 @@ function M.follow_link()
       elseif is_windows then
         vim.system({ "cmd.exe", "/c", "start", "", resolved_link })
       end
+      followed = true
     end
   end
+  return followed
 end
 
 return M
